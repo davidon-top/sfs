@@ -17,12 +17,6 @@ class Value[F, T](
   }
 }
 
-trait AsValue[F, T] {
-  extension (from: F) {
-    def asStringValue(): Value[F, String]
-  }
-}
-
 object Value {
   def join(
       iterator: Iterable[Value[?, String]]
