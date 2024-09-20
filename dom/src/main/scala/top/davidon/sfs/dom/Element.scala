@@ -6,5 +6,5 @@ import top.davidon.sfs.dom.tags.Tag
 class Element[+Ref <: org.scalajs.dom.Element](
     val tag: Tag[Ref],
     val mods: Iterable[Modifier[?, ?]],
-    val value: Value[?, String]
+    val children: Seq[Element[?] | Value[?, String]]
 ) {}

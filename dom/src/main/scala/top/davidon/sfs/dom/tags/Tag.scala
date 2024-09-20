@@ -10,8 +10,8 @@ trait Tag[+Ref <: dom.Element] {
   def apply(
       modifiers: Modifier[?, ?]*
   )(
-      values: Value[?, String]*
+      values: Element[?] | Value[?, String]*
   ): Element[Ref] = {
-    Element[Ref](this, modifiers, Value.join(values))
+    Element[Ref](this, modifiers, values.toSeq)
   }
 }
