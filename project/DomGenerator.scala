@@ -347,13 +347,15 @@ object DomGenerator {
 
   private object generator
       extends CanonicalGenerator(
-        baseOutputDirectoryPath = "shared/src/main/scala/top/davidon/sfs/dom",
+        baseOutputDirectoryPath = "dom/src/main/scala/top/davidon/sfs/dom",
         basePackagePath = "top.davidon.sfs.dom",
         standardTraitCommentLines = List(
-          "#NOTE: GENERATED CODE",
-          s" - This file is generated at compile time from the data in Scala DOM Types",
-          " - See `project/DomDefsGenerator.scala` for code generation params",
-          " - Contribute to https://github.com/raquo/scala-dom-types to add missing tags / attrs / props / etc."
+          "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+          "!!! THIS IS GENERATED CODE     !!!",
+          "!!! DO NOT EDIT DIRECTLY       !!!",
+          "!!! DO NOT COMMIT              !!!",
+          "!!! SEE ./project/DomGenerator !!!",
+          "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
         ),
         format = CodeFormatting()
       ) {
