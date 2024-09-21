@@ -1,7 +1,7 @@
-package top.davidon.sfs.renderers
+package top.davidon.sfs.dom
 
 import org.scalajs.dom
-import top.davidon.sfs.dom.Modifier
+import top.davidon.sfs.dom.mods.Modifier
 
 trait ReactiveRenderer {
   def valueFunc[F](element: dom.Element, value: F): Unit

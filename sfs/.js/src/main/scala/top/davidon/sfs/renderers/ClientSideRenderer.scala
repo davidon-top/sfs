@@ -2,7 +2,8 @@ package top.davidon.sfs.renderers
 
 import org.scalajs.dom
 import top.davidon.sfs.dom.keys.{EventProp, HtmlProp}
-import top.davidon.sfs.dom.{Element, Renderer, Value}
+import top.davidon.sfs.dom.mods.{EventMod, Modifier}
+import top.davidon.sfs.dom.{Element, ReactiveRenderer, Renderer, Value}
 
 import scala.scalajs.js
 
@@ -19,7 +20,7 @@ class ClientSideRenderer(val root: dom.Element)
   override def valueFunc[F](element: dom.Element, value: F): Unit = {}
 
   override def modifierFunc[F, T](
-      modifier: top.davidon.sfs.dom.Modifier[F, T],
+      modifier: Modifier[F, T],
       value: F
   ): Unit = {}
 
@@ -33,7 +34,11 @@ class ClientSideRenderer(val root: dom.Element)
         case _: HtmlProp[?, ?] =>
           el.asInstanceOf[js.Dynamic]
             .updateDynamic(m.key.name)(m.value().asInstanceOf[js.Any])
-        case _: EventProp[?] => ???
+        case _: EventProp[?] =>
+          el.addEventListener(
+            m.key.name,
+            m.value.value.asInstanceOf[EventMod[?]].value
+          )
         case _ =>
           el.setAttribute(m.key.name, m.value().asInstanceOf[String])
       }

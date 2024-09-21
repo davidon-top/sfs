@@ -1,6 +1,6 @@
 package top.davidon.sfs.dom
 
-import top.davidon.sfs.dom.codecs.StringCodec
+import top.davidon.sfs.dom.mods.Modifier
 import top.davidon.sfs.dom.tags.Tag
 
 /** tag + modifiers + value */

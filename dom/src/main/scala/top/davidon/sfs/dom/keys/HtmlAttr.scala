@@ -1,7 +1,8 @@
 package top.davidon.sfs.dom.keys
 
 import top.davidon.sfs.dom.codecs.{Codec, StringCodec}
-import top.davidon.sfs.dom.{Modifier, Value}
+import top.davidon.sfs.dom.Value
+import top.davidon.sfs.dom.mods.Modifier
 
 class HtmlAttr[V](
     override val name: String,
