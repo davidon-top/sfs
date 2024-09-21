@@ -20,6 +20,17 @@ package object codecs {
 
       override def encode(scalaValue: Double): String = scalaValue.toString
     }
+  lazy val LongAsIsCodec: Codec[Long, Long] = AsIsCodec()
+
+  lazy val LongAsStringCodec: Codec[Long, String] =
+    new Codec[Long, String] {
+
+      override def decode(domValue: String): Long =
+        domValue.toLong // @TODO this can throw exception. How do we handle this?
+
+      override def encode(scalaValue: Long): String = scalaValue.toString
+    }
+
   lazy val BooleanAsTrueFalseStringCodec: Codec[Boolean, String] =
     new Codec[Boolean, String] {
 

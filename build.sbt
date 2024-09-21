@@ -27,18 +27,13 @@ generate := DomGenerator.generate()
 
 (Compile / compile) := ((Compile / compile) dependsOn generate).value
 
-lazy val root = crossProject(JSPlatform, JVMPlatform)
+lazy val dom = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
   .in(file("./dom"))
   .settings(
     name := "sfs-dom",
     version := "0.1.0-SNAPSHOT"
   )
-//  .settings(
-//    libraryDependencies ++= Seq(
-//      "org.scala-js" % "scalajs-dom" % "2.8.0" % "sjs1_3"
-//    )
-//  )
   .jvmSettings(
     libraryDependencies ++= Seq(
       "org.scala-js" % "scalajs-dom_sjs1_3" % "2.8.0"
@@ -49,3 +44,12 @@ lazy val root = crossProject(JSPlatform, JVMPlatform)
       "org.scala-js" % "scalajs-dom_sjs1_3" % "2.8.0"
     )
   )
+
+lazy val sfs = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
+  .in(file("./sfs"))
+  .settings(
+    name := "sfs",
+    version := "0.1.0-SNAPSHOT"
+  )
+  .dependsOn(dom)

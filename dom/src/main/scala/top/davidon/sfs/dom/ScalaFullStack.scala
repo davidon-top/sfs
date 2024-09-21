@@ -20,39 +20,23 @@ trait ScalaFullStack
 
   object svg extends SvgTags with SvgAttrs with ComplexSvgKeys
 
-  given AsValue[String, String] with {
-    extension (from: String) {
-      def asStringValue(): Value[String, String] = {
-        Value(from, StringAsIsCodec)
-      }
-    }
+  given strToVal: Conversion[String, Value[String, String]] with {
+    def apply(from: String): Value[String, String] =
+      Value(from, StringAsIsCodec)
   }
-  given AsValue[Int, String] with {
-    extension (from: Int) {
-      def asStringValue(): Value[Int, String] = {
-        Value(from, IntAsStringCodec)
-      }
-    }
+  given intToVal: Conversion[Int, Value[Int, String]] with {
+    def apply(from: Int): Value[Int, String] = Value(from, IntAsStringCodec)
   }
-  given AsValue[Double, String] with {
-    extension (from: Double) {
-      def asStringValue(): Value[Double, String] = {
-        Value(from, DoubleAsStringCodec)
-      }
-    }
+  given doubleToVal: Conversion[Double, Value[Double, String]] with {
+    def apply(from: Double): Value[Double, String] =
+      Value(from, DoubleAsStringCodec)
   }
-  given AsValue[Boolean, String] with {
-    extension (from: Boolean) {
-      def asStringValue(): Value[Boolean, String] = {
-        Value(from, BooleanAsTrueFalseStringCodec)
-      }
-    }
+  given longToVal: Conversion[Long, Value[Long, String]] with {
+    def apply(from: Long): Value[Long, String] = Value(from, LongAsStringCodec)
   }
-  given AsValue[Iterable[String], String] with {
-    extension (from: Iterable[String]) {
-      def asStringValue(): Value[Iterable[String], String] = {
-        Value(from, IterableAsSpaceSeparatedStringCodec)
-      }
-    }
+  given iterToVal: Conversion[Iterable[String], Value[Iterable[String], String]]
+  with {
+    def apply(from: Iterable[String]): Value[Iterable[String], String] =
+      Value(from, IterableAsSpaceSeparatedStringCodec)
   }
 }
