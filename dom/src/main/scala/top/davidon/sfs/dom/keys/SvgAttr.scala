@@ -1,10 +1,10 @@
 package top.davidon.sfs.dom.keys
-import top.davidon.sfs.dom.codecs.Codec
+import top.davidon.sfs.dom.codecs.{Codec, StringCodec}
 import top.davidon.sfs.dom.{Modifier, Value}
 
 class SvgAttr[V](
     val localName: String,
-    val codec: Codec[V, String],
+    val codec: StringCodec[V],
     val namespacePrefix: Option[String]
 ) extends Key {
   override val name: String =

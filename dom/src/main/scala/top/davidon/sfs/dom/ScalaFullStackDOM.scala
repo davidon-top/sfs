@@ -7,7 +7,7 @@ import top.davidon.sfs.dom.defs.eventProps.GlobalEventProps
 import top.davidon.sfs.dom.defs.props.HtmlProps
 import top.davidon.sfs.dom.defs.tags.{HtmlTags, SvgTags}
 
-trait ScalaFullStack
+trait ScalaFullStackDOM
     extends HtmlTags
     with HtmlAttrs
     with HtmlProps

@@ -1,6 +1,7 @@
 package top.davidon.sfs.dom.tags
 
 import org.scalajs.dom
+import top.davidon.sfs.dom.codecs.StringCodec
 import top.davidon.sfs.dom.{Element, Modifier, Value}
 
 trait Tag[+Ref <: dom.Element] {

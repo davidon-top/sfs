@@ -1,4 +1,6 @@
 ThisBuild / scalaVersion := "3.5.0"
+ThisBuild / versionScheme := Some("semver-spec")
+
 ThisBuild / publishMavenStyle := true
 ThisBuild / publishTo := Some(
   "GitHub Package Registry" at "https://maven.pkg.github.com/davidon-top/sfs"
@@ -9,14 +11,16 @@ ThisBuild / credentials += Credentials(
   sys.env("THEHUB_USERNAME"),
   sys.env("THEHUB_TOKEN")
 )
-ThisBuild / versionScheme := Some("early-semver")
+
 ThisBuild / licenses += ("MIT", url("https://opensource.org/license/MIT"))
+
 ThisBuild / scmInfo := Some(
   ScmInfo(
     url("https://github.com/davidon-top/sfs"),
     "scm:https://github.com/davidon-top/sfs.git"
   )
 )
+
 ThisBuild / organization := "top.davidon.sfs"
 ThisBuild / organizationName := "DavidOnTop"
 ThisBuild / organizationHomepage := Some(url("https://davidon.top"))
@@ -32,7 +36,7 @@ lazy val dom = crossProject(JSPlatform, JVMPlatform)
   .in(file("./dom"))
   .settings(
     name := "sfs-dom",
-    version := "0.1.0-SNAPSHOT"
+    version := "0.1.0-alpha"
   )
   .jvmSettings(
     libraryDependencies ++= Seq(
@@ -50,6 +54,14 @@ lazy val sfs = crossProject(JSPlatform, JVMPlatform)
   .in(file("./sfs"))
   .settings(
     name := "sfs",
-    version := "0.1.0-SNAPSHOT"
+    version := "0.1.0-alpha"
   )
   .dependsOn(dom)
+
+lazy val sfsReScala = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
+  .in(file("./reactive/rescala"))
+  .settings(
+    name := "sfs-rescala",
+    version := "0.1.0-alpha"
+  )
