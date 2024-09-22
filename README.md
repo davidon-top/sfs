@@ -10,18 +10,20 @@ This project is far from being ready to use so for now these also include planne
 - [ ] CSR support
 - [ ] Hydration
 - [ ] router
-- [ ] RPC integration or server functions
 - [ ] ReScala reactive backend
 - [ ] zio server integration
 
 ### TODO
 
-- [ ] Full type safety, eliminate ? as generic param and asInstanceOf where possible
+- [ ] Type safety, eliminate ? as generic param and asInstanceOf where possible
 - [ ] AirStream reactive backend
 - [ ] other server integrations
 
 ## Packages
 
 - sfs - different renderers (String, dom, hydration) and reactivity bindings
-- dom - shared jvm/js html builder which includes: tags, attributes, props, svg utils
+- dom - shared jvm/js html builder which includes: tags, attributes, props, svg, utils
     - possible to use from other libraries which need a js+jvm html/dom builder
+- router - implements a universal router for ssr and csr/hydration
+- reactive/* - various reactive backends
+- integrations/* - various server integrations
