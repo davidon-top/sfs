@@ -15,10 +15,10 @@ class StringRenderer(val ssr: Boolean) extends Renderer[String] {
       e.mods.map(m => s" ${m.key.name}=\"${m.value.toString}\"").mkString("")
     val bodyStr = e.children
       .map {
+        case c: Value[String] =>
+          c()
         case e: Element[?] =>
           renderElement(e)
-        case c: Value[?, String] =>
-          c()
       }
       .mkString(" ")
     s"<${e.tag.name}$modsStr>$bodyStr${

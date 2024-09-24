@@ -6,6 +6,7 @@ import top.davidon.sfs.dom.defs.complex.{ComplexHtmlKeys, ComplexSvgKeys}
 import top.davidon.sfs.dom.defs.eventProps.GlobalEventProps
 import top.davidon.sfs.dom.defs.props.HtmlProps
 import top.davidon.sfs.dom.defs.tags.{HtmlTags, SvgTags}
+import top.davidon.sfs.dom.plain.PlainValue
 
 trait ScalaFullStackDOM
     extends HtmlTags
@@ -20,23 +21,24 @@ trait ScalaFullStackDOM
 
   object svg extends SvgTags with SvgAttrs with ComplexSvgKeys
 
-  given strToVal: Conversion[String, Value[String, String]] with {
-    def apply(from: String): Value[String, String] =
-      Value(from, StringAsIsCodec)
+  given strToVal: Conversion[String, Value[String]] with {
+    def apply(from: String): PlainValue[String, String] =
+      PlainValue(from, StringAsIsCodec)
   }
-  given intToVal: Conversion[Int, Value[Int, String]] with {
-    def apply(from: Int): Value[Int, String] = Value(from, IntAsStringCodec)
+  given intToVal: Conversion[Int, Value[String]] with {
+    def apply(from: Int): PlainValue[Int, String] =
+      PlainValue(from, IntAsStringCodec)
   }
-  given doubleToVal: Conversion[Double, Value[Double, String]] with {
-    def apply(from: Double): Value[Double, String] =
-      Value(from, DoubleAsStringCodec)
+  given doubleToVal: Conversion[Double, Value[String]] with {
+    def apply(from: Double): PlainValue[Double, String] =
+      PlainValue(from, DoubleAsStringCodec)
   }
-  given longToVal: Conversion[Long, Value[Long, String]] with {
-    def apply(from: Long): Value[Long, String] = Value(from, LongAsStringCodec)
+  given longToVal: Conversion[Long, Value[String]] with {
+    def apply(from: Long): PlainValue[Long, String] =
+      PlainValue(from, LongAsStringCodec)
   }
-  given iterToVal: Conversion[Iterable[String], Value[Iterable[String], String]]
-  with {
-    def apply(from: Iterable[String]): Value[Iterable[String], String] =
-      Value(from, IterableAsSpaceSeparatedStringCodec)
+  given iterToVal: Conversion[Iterable[String], Value[String]] with {
+    def apply(from: Iterable[String]): PlainValue[Iterable[String], String] =
+      PlainValue(from, IterableAsSpaceSeparatedStringCodec)
   }
 }
