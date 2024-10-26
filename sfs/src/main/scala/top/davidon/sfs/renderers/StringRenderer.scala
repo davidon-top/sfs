@@ -20,7 +20,7 @@ class StringRenderer() extends Renderer[String] {
         case e: Element[?] =>
           renderElement(e)
       }
-      .mkString(" ")
+      .mkString("")
     s"<${e.tag.name}$modsStr>$bodyStr${
         if e.tag.void then "" else s"</${e.tag.name}>"
       }"
