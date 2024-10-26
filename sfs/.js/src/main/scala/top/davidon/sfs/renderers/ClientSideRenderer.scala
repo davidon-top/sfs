@@ -55,7 +55,7 @@ class ClientSideRenderer(val root: dom.Element) extends Renderer[Unit] {
             m.value
               .asInstanceOf[ReactiveValue[?, ?]]
               .reactiveValue
-              .subscribe(value => { modifierFunc(el, m) })
+              .observe({ value => modifierFunc(el, m) })
           }
         case _: EventProp[?] =>
           el.addEventListener(
@@ -67,14 +67,14 @@ class ClientSideRenderer(val root: dom.Element) extends Renderer[Unit] {
             m.value
               .asInstanceOf[ReactiveValue[?, ?]]
               .reactiveValue
-              .subscribe(value => { modifierFunc(el, m) })
+              .observe({ value => modifierFunc(el, m) })
           }
       }
     )
 
     valueFunc(el, element.children)
     element.children.foreach { case r: ReactiveValue[?, String] =>
-      r.reactiveValue.subscribe(value => { valueFunc(el, element.children) })
+      r.reactiveValue.observe({ value => valueFunc(el, element.children) })
     }
 
     parent.append(el)

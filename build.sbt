@@ -36,7 +36,10 @@ lazy val dom = crossProject(JSPlatform, JVMPlatform)
   .in(file("./dom"))
   .settings(
     name := "sfs-dom",
-    version := "0.1.0-alpha"
+    version := "0.1.0-alpha",
+    libraryDependencies ++= Seq(
+      "de.tu-darmstadt.stg" %% "rescala" % "0.35.1"
+    )
   )
   .jvmSettings(
     libraryDependencies ++= Seq(
@@ -57,26 +60,3 @@ lazy val sfs = crossProject(JSPlatform, JVMPlatform)
     version := "0.1.0-alpha"
   )
   .dependsOn(dom)
-
-lazy val sfsRouter = crossProject(JSPlatform, JVMPlatform)
-  .crossType(CrossType.Pure)
-  .in(file("./router"))
-  .settings(
-    name := "sfs-router",
-    version := "0.1.0-alpha"
-  )
-
-lazy val sfsReScala = crossProject(JSPlatform, JVMPlatform)
-  .crossType(CrossType.Pure)
-  .in(file("./reactive/rescala"))
-  .settings(
-    name := "sfs-rescala",
-    version := "0.1.0-alpha"
-  )
-
-lazy val sfsZio = project
-  .in(file("./integrations/zio"))
-  .settings(
-    name := "sfs-zio",
-    version := "0.1.0-alpha"
-  )

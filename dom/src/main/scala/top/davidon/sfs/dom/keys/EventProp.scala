@@ -5,7 +5,6 @@ import top.davidon.sfs.dom.Value
 import top.davidon.sfs.dom.codecs.{EmptyCodec, StringAsIsCodec}
 import top.davidon.sfs.dom.mods.{EventMod, Modifier}
 import top.davidon.sfs.dom.plain.{PlainModifier, PlainValue}
-import top.davidon.sfs.dom.reactive.Observable
 
 class EventProp[E <: dom.Event](override val name: String) extends Key {
 

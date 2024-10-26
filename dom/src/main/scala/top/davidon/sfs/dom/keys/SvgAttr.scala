@@ -1,7 +1,7 @@
 package top.davidon.sfs.dom.keys
+import rescala.default.Signal
 import top.davidon.sfs.dom.codecs.Codec
 import top.davidon.sfs.dom.mods.Modifier
-import top.davidon.sfs.dom.reactive.Observable
 
 class SvgAttr[V](
     val localName: String,
@@ -13,11 +13,11 @@ class SvgAttr[V](
 
   val namespaceUri: Option[String] = namespacePrefix.map(SvgAttr.namespaceUri)
 
-  @inline def apply(value: V | Observable[V]): Modifier[V, String] = {
+  @inline def apply(value: V | Signal[V]): Modifier[V, String] = {
     this := value
   }
 
-  def :=(value: V | Observable[V]): Modifier[V, String] = {
+  def :=(value: V | Signal[V]): Modifier[V, String] = {
     Modifier.fromVorObservableV(this, value, codec)
   }
 }

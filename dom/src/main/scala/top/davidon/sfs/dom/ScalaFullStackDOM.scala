@@ -1,5 +1,6 @@
 package top.davidon.sfs.dom
 
+import rescala.default.Signal
 import top.davidon.sfs.dom.codecs.*
 import top.davidon.sfs.dom.defs.attrs.{AriaAttrs, HtmlAttrs, SvgAttrs}
 import top.davidon.sfs.dom.defs.complex.{ComplexHtmlKeys, ComplexSvgKeys}
@@ -7,6 +8,7 @@ import top.davidon.sfs.dom.defs.eventProps.GlobalEventProps
 import top.davidon.sfs.dom.defs.props.HtmlProps
 import top.davidon.sfs.dom.defs.tags.{HtmlTags, SvgTags}
 import top.davidon.sfs.dom.plain.PlainValue
+import top.davidon.sfs.dom.reactive.ReactiveValue
 
 trait ScalaFullStackDOM
     extends HtmlTags
@@ -41,5 +43,12 @@ trait ScalaFullStackDOM
   with {
     def apply(from: Iterable[String]): PlainValue[Iterable[String], String] =
       PlainValue(from, IterableAsSpaceSeparatedStringCodec)
+  }
+
+  given signalToVal: Conversion[Signal[String], ReactiveValue[String, String]]
+  with {
+    def apply(from: Signal[String]): ReactiveValue[String, String] = {
+      ReactiveValue(from, StringAsIsCodec)
+    }
   }
 }
