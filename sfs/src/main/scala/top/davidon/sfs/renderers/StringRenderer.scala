@@ -15,8 +15,8 @@ class StringRenderer(val ssr: Boolean) extends Renderer[String] {
       e.mods.map(m => s" ${m.key.name}=\"${m.value.toString}\"").mkString("")
     val bodyStr = e.children
       .map {
-        case c: Value[String] =>
-          c()
+        case c: Value[?, String] =>
+          c.toString
         case e: Element[?] =>
           renderElement(e)
       }

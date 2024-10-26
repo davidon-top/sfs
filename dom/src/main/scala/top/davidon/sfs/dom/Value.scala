@@ -1,10 +1,12 @@
 package top.davidon.sfs.dom
+import top.davidon.sfs.dom.codecs.{Codec, Coder}
 
-import top.davidon.sfs.dom.codecs.Codec
-import top.davidon.sfs.dom.reactive.Observable
+trait Value[F, T](val value: F, val codec: Codec[F, T]) {
+  def apply(): T = {
+    codec.encoder(value)
+  }
 
-trait Value[T] {
-  def apply(): T
+  override def toString: String = { codec.stringCode(value) }
 }
 
 //class Value[F, T](

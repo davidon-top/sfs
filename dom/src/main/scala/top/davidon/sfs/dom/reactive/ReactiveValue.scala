@@ -5,14 +5,18 @@ import top.davidon.sfs.dom.codecs.Codec
 import top.davidon.sfs.dom.plain.PlainValue
 
 class ReactiveValue[F, T](
-    val value: Observable[F],
-    val codec: Codec[F, T]
-) extends Value[T] {
-  def apply(): T = {
-    codec.encode(value.now())
+    val reactiveValue: Observable[F],
+    codec: Codec[F, T]
+) extends Value[F, T](reactiveValue.now(), codec) {
+  override def apply(): T = {
+    codec.encode(reactiveValue.now())
+  }
+
+  override def toString: String = {
+    codec.stringCode(reactiveValue.now())
   }
 
   def toValueNow: PlainValue[F, T] = {
-    PlainValue(value.now(), codec)
+    PlainValue(reactiveValue.now(), codec)
   }
 }

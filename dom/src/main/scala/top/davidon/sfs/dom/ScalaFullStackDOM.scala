@@ -21,23 +21,24 @@ trait ScalaFullStackDOM
 
   object svg extends SvgTags with SvgAttrs with ComplexSvgKeys
 
-  given strToVal: Conversion[String, Value[String]] with {
+  given strToVal: Conversion[String, Value[String, String]] with {
     def apply(from: String): PlainValue[String, String] =
       PlainValue(from, StringAsIsCodec)
   }
-  given intToVal: Conversion[Int, Value[String]] with {
+  given intToVal: Conversion[Int, Value[Int, String]] with {
     def apply(from: Int): PlainValue[Int, String] =
       PlainValue(from, IntAsStringCodec)
   }
-  given doubleToVal: Conversion[Double, Value[String]] with {
+  given doubleToVal: Conversion[Double, Value[Double, String]] with {
     def apply(from: Double): PlainValue[Double, String] =
       PlainValue(from, DoubleAsStringCodec)
   }
-  given longToVal: Conversion[Long, Value[String]] with {
+  given longToVal: Conversion[Long, Value[Long, String]] with {
     def apply(from: Long): PlainValue[Long, String] =
       PlainValue(from, LongAsStringCodec)
   }
-  given iterToVal: Conversion[Iterable[String], Value[String]] with {
+  given iterToVal: Conversion[Iterable[String], Value[Iterable[String], String]]
+  with {
     def apply(from: Iterable[String]): PlainValue[Iterable[String], String] =
       PlainValue(from, IterableAsSpaceSeparatedStringCodec)
   }

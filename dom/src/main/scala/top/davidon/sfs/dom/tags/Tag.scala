@@ -9,9 +9,9 @@ trait Tag[+Ref <: dom.Element] {
   val void: Boolean
 
   def apply(
-      modifiers: Modifier[?]*
+      modifiers: Modifier[?, ?]*
   )(
-      values: Element[?] | Value[String]*
+      values: Element[?] | Value[?, String]*
   ): Element[Ref] = {
     Element[Ref](this, modifiers, values.toSeq)
   }

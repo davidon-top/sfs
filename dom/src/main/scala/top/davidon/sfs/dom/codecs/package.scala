@@ -1,93 +1,88 @@
 package top.davidon.sfs.dom
 
-package object codecs {
+import top.davidon.sfs.dom.codecs.Codec
 
-  lazy val IntAsStringCodec: StringCodec[Int] =
-    new StringCodec[Int] {
+class StringCodecs {
 
-      override def decode(domValue: String): Int =
-        domValue.toInt // @TODO this can throw exception. How do we handle this?
+  lazy val IntAsStringCodec: Codec[Int, String] =
+    new Codec[Int, String](
+      (value: Int) => value.toString,
+      (value: String) => value.toInt,
+      (value: Int) => value.toString
+    )
 
-      override def encode(scalaValue: Int): String = scalaValue.toString
-    }
+  lazy val DoubleAsStringCodec: Codec[Double, String] =
+    new Codec[Double, String](
+      (value: Double) => value.toString,
+      (value: String) => value.toDouble,
+      (value: Double) => value.toString
+    )
 
-  lazy val DoubleAsStringCodec: StringCodec[Double] =
-    new StringCodec[Double] {
+  lazy val LongAsStringCodec: Codec[Long, String] =
+    new Codec[Long, String](
+      (value: Long) => value.toString,
+      (value: String) => value.toLong,
+      (value: Long) => value.toString
+    )
 
-      override def decode(domValue: String): Double =
-        domValue.toDouble // @TODO this can throw exception. How do we handle this?
+  lazy val BooleanAsTrueFalseStringCodec: Codec[Boolean, String] =
+    new Codec[Boolean, String](
+      (value: Boolean) => value.toString,
+      (value: String) => value == "true",
+      (value: Boolean) => value.toString
+    )
 
-      override def encode(scalaValue: Double): String = scalaValue.toString
-    }
+  lazy val BooleanAsYesNoStringCodec: Codec[Boolean, String] =
+    new Codec[Boolean, String](
+      (value: Boolean) => if value then "yes" else "no",
+      (value: String) => value == "yes",
+      (value: Boolean) => if value then "yes" else "no"
+    )
 
-  lazy val LongAsStringCodec: StringCodec[Long] =
-    new StringCodec[Long] {
+  lazy val BooleanAsOnOffStringCodec: Codec[Boolean, String] =
+    new Codec[Boolean, String](
+      (value: Boolean) => if value then "on" else "off",
+      (value: String) => value == "on",
+      (value: Boolean) => if value then "on" else "off"
+    )
 
-      override def decode(domValue: String): Long =
-        domValue.toLong // @TODO this can throw exception. How do we handle this?
+  lazy val IterableAsSpaceSeparatedStringCodec
+      : Codec[Iterable[String], String] =
+    new Codec[Iterable[String], String](
+      (value: Iterable[String]) => value.mkString(" "),
+      (value: String) => if value == "" then Nil else value.split(" "),
+      (value: Iterable[String]) => value.mkString(" ")
+    )
 
-      override def encode(scalaValue: Long): String = scalaValue.toString
-    }
+  lazy val IterableAsCommaSeparatedStringCodec
+      : Codec[Iterable[String], String] =
+    new Codec[Iterable[String], String](
+      (value: Iterable[String]) => value.mkString(","),
+      (value: String) => if value == "" then Nil else value.split(","),
+      (value: Iterable[String]) => value.mkString(",")
+    )
 
-  lazy val BooleanAsTrueFalseStringCodec: StringCodec[Boolean] =
-    new StringCodec[Boolean] {
+  lazy val BooleanAsAttrPresenceCodec: Codec[Boolean, String] =
+    new Codec[Boolean, String](
+      (value: Boolean) => if value then "" else null,
+      (value: String) => value != null,
+      (value: Boolean) => if value then "" else null
+    )
+}
 
-      override def decode(domValue: String): Boolean = domValue == "true"
-
-      override def encode(scalaValue: Boolean): String =
-        if scalaValue then "true" else "false"
-    }
-
-  lazy val BooleanAsYesNoStringCodec: StringCodec[Boolean] =
-    new StringCodec[Boolean] {
-
-      override def decode(domValue: String): Boolean = domValue == "yes"
-
-      override def encode(scalaValue: Boolean): String =
-        if scalaValue then "yes" else "no"
-    }
-  lazy val BooleanAsOnOffStringCodec: StringCodec[Boolean] =
-    new StringCodec[Boolean] {
-
-      override def decode(domValue: String): Boolean = domValue == "on"
-
-      override def encode(scalaValue: Boolean): String =
-        if scalaValue then "on" else "off"
-    }
-
-  lazy val IterableAsSpaceSeparatedStringCodec: StringCodec[Iterable[String]] =
-    new StringCodec[Iterable[String]] { // could use for e.g. className
-
-      override def decode(domValue: String): Iterable[String] =
-        if domValue == "" then Nil else domValue.split(' ')
-
-      override def encode(scalaValue: Iterable[String]): String =
-        scalaValue.mkString(" ")
-    }
-  lazy val IterableAsCommaSeparatedStringCodec: StringCodec[Iterable[String]] =
-    new StringCodec[Iterable[String]] { // could use for lists of IDs
-
-      override def decode(domValue: String): Iterable[String] =
-        if domValue == "" then Nil else domValue.split(',')
-
-      override def encode(scalaValue: Iterable[String]): String =
-        scalaValue.mkString(",")
-    }
-  lazy val BooleanAsAttrPresenceCodec: StringCodec[Boolean] =
-    new StringCodec[Boolean] {
-
-      override def decode(domValue: String): Boolean = domValue != null
-
-      override def encode(scalaValue: Boolean): String =
-        if scalaValue then "" else null
-    }
-
-  lazy val LongAsIsCodec: AsIsCodec[Long] = AsIsCodec(LongAsStringCodec)
-  lazy val DoubleAsIsCodec: AsIsCodec[Double] = AsIsCodec(DoubleAsStringCodec)
-  lazy val StringAsIsCodec: AsIsCodec[String] & StringCodec[String] =
-    new AsIsCodec[String](StringAsIsCodec) with StringCodec[String] {}
-  lazy val IntAsIsCodec: AsIsCodec[Int] = AsIsCodec(IntAsStringCodec)
+package object codecs extends StringCodecs {
+  lazy val LongAsIsCodec: AsIsCodec[Long] = AsIsCodec(
+    LongAsStringCodec.stringCoder
+  )
+  lazy val DoubleAsIsCodec: AsIsCodec[Double] = AsIsCodec(
+    DoubleAsStringCodec.stringCoder
+  )
+  lazy val StringAsIsCodec: AsIsCodec[String] =
+    AsIsCodec[String](AsIsCoder[String]())
+  lazy val IntAsIsCodec: AsIsCodec[Int] = AsIsCodec(
+    IntAsStringCodec.stringCoder
+  )
   lazy val BooleanAsIsCodec: AsIsCodec[Boolean] = AsIsCodec(
-    BooleanAsTrueFalseStringCodec
+    BooleanAsTrueFalseStringCodec.stringCoder
   )
 }

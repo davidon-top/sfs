@@ -4,8 +4,8 @@ import org.scalajs.dom
 import top.davidon.sfs.dom.Value
 import top.davidon.sfs.dom.codecs.{EmptyCodec, StringAsIsCodec}
 import top.davidon.sfs.dom.mods.{EventMod, Modifier}
-import top.davidon.sfs.dom.plain.PlainValue
-import top.davidon.sfs.dom.reactive.TriggerableValue
+import top.davidon.sfs.dom.plain.{PlainModifier, PlainValue}
+import top.davidon.sfs.dom.reactive.Observable
 
 class EventProp[E <: dom.Event](override val name: String) extends Key {
 
@@ -13,23 +13,15 @@ class EventProp[E <: dom.Event](override val name: String) extends Key {
     * @param value
     * @return
     */
-  def :=(value: E => Unit): Modifier[Unit] = {
-    Modifier(this, PlainValue(EventMod(this, value), EmptyCodec()))
+  def :=(value: E => Unit): Modifier[Any, Unit] = {
+    PlainModifier(this, PlainValue(EventMod(this, value), EmptyCodec))
   }
 
-  /** Don't use with StringRenderer and ssr off/false
+  /** Only use with StringRenderer and ssr on/true
     * @param value
     * @return
     */
-  def :=(value: TriggerableValue[E]): Modifier[Unit] = {
-    Modifier(this, PlainValue(EventMod(this, value.trigger), EmptyCodec()))
-  }
-
-  /** Only use with StringRenderer and ssr off/false
-    * @param value
-    * @return
-    */
-  def :=(value: String): Modifier[String] = {
-    Modifier(this, PlainValue(value, StringAsIsCodec))
+  def :=(value: String): Modifier[String, String] = {
+    PlainModifier(this, PlainValue(value, StringAsIsCodec))
   }
 }
