@@ -3,7 +3,7 @@ package top.davidon.sfs.renderers
 import org.scalajs.dom
 import top.davidon.sfs.dom.{Element, Renderer, Value}
 
-class StringRenderer(val ssr: Boolean) extends Renderer[String] {
+class StringRenderer() extends Renderer[String] {
   override def render(
       elements: Element[dom.Element]*
   ): String = {
